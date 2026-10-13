@@ -2,12 +2,20 @@ services:
   openstock:
     build:
       context: .
-      extra_hosts:
-        - "mongodb:host-gateway"
+      args:
+        NEXT_PUBLIC_FINNHUB_API_KEY: ${NEXT_PUBLIC_FINNHUB_API_KEY}
+    environment:
+      NODE_ENV: production
+      MONGODB_URI: ${MONGODB_URI}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL}
+      NEXT_PUBLIC_FINNHUB_API_KEY: ${NEXT_PUBLIC_FINNHUB_API_KEY}
+      FINNHUB_BASE_URL: ${FINNHUB_BASE_URL}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+    extra_hosts:
+      - "mongodb:host-gateway"
     ports:
       - "3000:3000"
-    env_file:
-      - .env
     restart: unless-stopped
     depends_on:
       - mongodb

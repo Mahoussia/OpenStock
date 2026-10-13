@@ -17,6 +17,10 @@ RUN npm install
 # Copy all project files
 COPY . .
 
+#Claude AI Added part
+ARG NEXT_PUBLIC_FINNHUB_API_KEY
+ENV NEXT_PUBLIC_FINNHUB_API_KEY=$NEXT_PUBLIC_FINNHUB_API_KEY
+
 # Build the Next.js application
 RUN npm run build
 # Or if using pnpm:

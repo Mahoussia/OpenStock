@@ -73,6 +73,11 @@ let authInstance: ReturnType<typeof createAuth> | null = null;
 export const getAuth = async () => {
     if (authInstance) return authInstance;
 
+    // Build phase (docker build) has no MongoDB: skip the connection, nothing is queried at build time
+    if (process.env.NEXT_PHASE === 'phase-production-build') {
+        authInstance = createAuth({} as MongoDb);
+        return authInstance;
+    }
     const mongoose = await connectToDatabase();
     const database = mongoose.connection.db;
     if (!database) {
